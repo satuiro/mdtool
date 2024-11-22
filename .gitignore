@@ -1,1 +1,4 @@
-/mdtool
+venv
+mdtool.egg-info
+mdtool/__pycache__
+dist

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mdtool"
+version = "0.1.0"
+authors = [{ name = "satuiro", email = "your.email@example.com" }]
+description = "Tool to generate README and render in browser"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "typer>=0.9.0",
+  "rich>=13.0.0",
+  "groq>=0.4.0",
+  "GitPython>=3.1.0",
+  "PyGithub>=2.1.1",
+]
+
+[project.scripts]
+mdtool = "mdtool.cli:app"
