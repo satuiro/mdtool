@@ -39,6 +39,13 @@ python -m venv venv
 pip install -e .
 ```
 
+4. Set up environment variables:
+
+```bash
+export GROQ_API_KEY="your-groq-api-key"
+export GITHUB_TOKEN="your-github-token"
+```
+
 ## 📖 Usage
 
 ### Generate README
