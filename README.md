@@ -1,180 +1,236 @@
-# zstash
+# MDTool
 ================
 
-**Secure File Encryption and Storage**
+> Your automated README wizard for GitHub repositories
 
-zstash is a Rust-based project designed to provide a secure and efficient way to encrypt and store sensitive files. This project aims to offer a simple, yet robust solution for protecting sensitive data from unauthorized access.
+MDTool is a CLI tool designed to simplify the process of generating high-quality README files for your GitHub repositories. With its user-friendly interface and automatic generation capabilities, MDTool is the perfect solution for developers looking to create engaging and informative READMEs.
 
 ## Key Features
 ---------------
 
-* **Secure Encryption**: zstash utilizes industry-standard encryption algorithms to ensure the confidentiality and integrity of your files.
-* **Efficient Storage**: The project is designed to optimize storage space while maintaining the security and accessibility of your encrypted files.
-* **Easy-to-Use Interface**: zstash provides a user-friendly interface for encrypting, decrypting, and managing your files.
+*   **Automatic README Generation**: Analyze your repository and generate a comprehensive README file with essential information.
+*   **Customization Options**: Tailor your README to fit your project's unique needs with various customization options.
+*   **Rich Text Formatting**: Use Markdown formatting to create visually appealing and easy-to-read READMEs.
+*   **Support for Multiple Repository Types**: Generate READMEs for various types of repositories, including open-source projects, personal projects, and more.
 
-## Installation Instructions
--------------------------
+## Installation
+------------
 
-To install zstash, follow these steps:
+To install MDTool, follow these steps:
 
-1. **Install Rust**: Make sure you have Rust installed on your system. You can download and install Rust from the official [Rust installation page](https://www.rust-lang.org/tools/install).
-2. **Clone the Repository**: Clone the zstash repository using Git: `git clone https://github.com/your-username/zstash.git`.
-3. **Build the Project**: Navigate to the project directory and run `cargo build` to build the zstash executable.
+### Using pip
 
-## Usage Examples
--------------
-
-### Encrypting a File
-
-To encrypt a file using zstash, run the following command:
 ```bash
-./zstash encrypt -i input_file.txt -o encrypted_file.zst
+pip install mdtool
 ```
-Replace `input_file.txt` with the path to the file you want to encrypt, and `encrypted_file.zst` with the desired output file path.
 
-### Decrypting a File
+### From Source
 
-To decrypt a file using zstash, run the following command:
+1.  Clone the repository:
+
+    ```bash
+git clone https://github.com/your-username/mdtool.git
+```
+
+2.  Navigate to the project directory:
+
+    ```bash
+cd mdtool
+```
+
+3.  Install the dependencies:
+
+    ```bash
+pip install -r requirements.txt
+```
+
+4.  Install the package:
+
+    ```bash
+pip install .
+```
+
+## Usage
+-----
+
+To generate a README file using MDTool, follow these steps:
+
+1.  Navigate to your repository directory:
+
+    ```bash
+cd your-repo
+```
+
+2.  Run the MDTool command:
+
+    ```bash
+mdtool generate
+```
+
+This will prompt you to provide some basic information about your repository. Once you've entered the required details, MDTool will generate a comprehensive README file for your repository.
+
+### Example Usage
+
+Here's an example of how to use MDTool to generate a README file:
+
 ```bash
-./zstash decrypt -i encrypted_file.zst -o decrypted_file.txt
+$ mdtool generate
+? What is the name of your repository? My Awesome Project
+? What is the description of your repository? A brief description of my project
+? What are the keywords for your repository? (comma-separated) project, awesome, github
+? What is the license for your repository? MIT
+? What are the contributors for your repository? (comma-separated) John Doe, Jane Doe
+
+README file generated successfully!
 ```
-Replace `encrypted_file.zst` with the path to the encrypted file, and `decrypted_file.txt` with the desired output file path.
 
-## Project Structure Overview
----------------------------
+## Project Structure
+------------------
 
-The zstash project consists of the following directories and files:
+The MDTool project is organized into the following directories and files:
 
-* `src`: Contains the Rust source code for the zstash executable.
-* `tests`: Includes unit tests and integration tests for the zstash project.
-* `Cargo.toml`: The project's Cargo configuration file.
-* `.idea`: IntelliJ IDEA project configuration files.
+*   `mdtool/`: The main package directory containing the CLI tool and supporting modules.
+*   `mdtool/cli.py`: The CLI tool entry point.
+*   `mdtool/readme.py`: The module responsible for generating README files.
+*   `mdtool/__init__.py`: The package initialization file.
+*   `LICENSE`: The project license file.
+*   `README.md`: This README file.
 
 ## Dependencies and Requirements
------------------------------
+-------------------------------
 
-* Rust 1.58 or later
-* Cargo 1.58 or later
-* OpenSSL 1.1.1 or later (for encryption)
+MDTool depends on the following packages:
 
-## Contributing Guidelines
-------------------------
+*   `typer`: A Python library for building CLI tools.
+*   `rich`: A Python library for rich text formatting.
 
-Contributions to zstash are welcome! If you'd like to contribute, please follow these guidelines:
+These dependencies are specified in the `requirements.txt` file.
 
-1. Fork the zstash repository on GitHub.
-2. Create a new branch for your feature or bug fix.
-3. Commit your changes with a clear and concise commit message.
-4. Open a pull request to merge your changes into the main branch.
+## Contributing
+------------
 
-## License Information
-----------------------
+Contributions to MDTool are welcome! If you'd like to contribute to the project, please follow these steps:
 
-zstash is licensed under the [MIT License](https://opensource.org/licenses/MIT). You are free to use, modify, and distribute zstash under the terms of this license.
+1.  Fork the repository.
+2.  Create a new branch for your feature or bug fix.
+3.  Make your changes and commit them.
+4.  Open a pull request to the main repository.
 
-Note: This README is a template and should be updated to reflect the actual project details and features.
+Please ensure that your contributions adhere to the project's code style and conventions.
 
-# zStash
+## License
+-------
+
+MDTool is released under the Apache License 2.0. See the `LICENSE` file for more information.
+
+By using MDTool, you agree to the terms and conditions outlined in the license.
+
+## Acknowledgments
+---------------
+
+MDTool is built on top of several open-source libraries and tools. We'd like to extend our gratitude to the developers and maintainers of these projects for their hard work and dedication.
+
+*   `typer`: A Python library for building CLI tools.
+*   `rich`: A Python library for rich text formatting.
+
+We're grateful for the opportunity to build upon their work and create a useful tool for the developer community.
+
+# mdtool
 ================
 
-`zStash` is a command-line tool for securely encrypting and decrypting files using AES-GCM encryption with password-based key derivation (PBKDF2). This tool provides a simple and secure way to protect sensitive files from unauthorized access.
+**A Markdown Tool for Developers**
+--------------------------------
 
-## Key Features
+**Description**
+---------------
+
+mdtool is a Python-based command-line tool designed to assist developers in managing and generating Markdown content. With its Groq and GitHub integrations, mdtool streamlines the process of creating, reading, and updating Markdown files.
+
+**Key Features**
 -------------
 
-*   **File Encryption and Decryption**: `zStash` uses AES-GCM encryption to secure files, ensuring confidentiality and integrity of data.
-*   **Password-Based Key Derivation**: The tool uses PBKDF2 to derive a strong encryption key from a user-provided password, making it resistant to brute-force attacks.
-*   **Secure Storage**: `zStash` stores encrypted files in a designated directory, ensuring that sensitive data is kept separate from other files.
+*   **Groq Integration**: Seamlessly interact with Groq's API to generate and manage Markdown content.
+*   **GitHub Integration**: Utilize GitHub tokens to access and manage Markdown files within your repositories.
+*   **Configurable**: Easily customize the tool to suit your needs through environment variables and a dataclass-based configuration system.
+*   **Rich CLI Output**: Enjoy a visually appealing command-line interface with rich formatting and progress bars.
 
-## Installation Instructions
--------------------------
+**Installation**
+------------
 
-To install `zStash`, follow these steps:
+To install mdtool, follow these steps:
 
-### Using Cargo (Rust Package Manager)
-
-1.  Install Rust and Cargo from the official Rust installation page: <https://www.rust-lang.org/tools/install>
-2.  Clone the `zStash` repository using the following command:
-
+1.  Clone the repository:
     ```bash
-git clone https://github.com/Satuiro/zstash.git
+git clone https://github.com/your-username/mdtool.git
 ```
-3.  Navigate to the cloned repository and run the following command to build and install `zStash`:
-
+2.  Navigate to the project directory:
     ```bash
-cargo build --release
-cargo install --path .
+cd mdtool
 ```
-
-### Manual Installation
-
-1.  Clone the `zStash` repository using the following command:
-
+3.  Install the required dependencies using pip:
     ```bash
-git clone https://github.com/Satuiro/zstash.git
+pip install -r requirements.txt
 ```
-2.  Navigate to the cloned repository and run the following command to build `zStash`:
-
+4.  Install the mdtool package:
     ```bash
-cargo build --release
-```
-3.  Copy the compiled `zStash` executable to a directory in your system's PATH, such as `/usr/local/bin`.
-
-## Usage Examples
---------------
-
-Here are some basic usage examples for `zStash`:
-
-### Encrypting a File
-
-```bash
-zStash encrypt --input example.txt --output encrypted_example.txt
+pip install .
 ```
 
-### Decrypting a File
+**Usage Examples**
+-----------------
 
-```bash
-zStash decrypt --input encrypted_example.txt --output decrypted_example.txt
+To use mdtool, run the following commands:
+
+*   **Generate a new Markdown file**:
+    ```bash
+mdtool generate --title "My Markdown File" --content "This is a sample Markdown file."
+```
+*   **Read a Markdown file**:
+    ```bash
+mdtool read --path "/path/to/your/markdown/file.md"
+```
+*   **Update a Markdown file**:
+    ```bash
+mdtool update --path "/path/to/your/markdown/file.md" --title "My Updated Markdown File" --content "This is an updated sample Markdown file."
 ```
 
-### Listing Available Commands
+**Project Structure Overview**
+-----------------------------
 
-```bash
-zStash --help
-```
+The mdtool project is organized into the following directories and files:
 
-## Project Structure Overview
+*   `mdtool/`: The main package directory.
+    *   `config.py`: Defines the configuration dataclass and loads environment variables.
+    *   `groq_service.py`: Provides a service class for interacting with Groq's API.
+    *   `readme.py`: Contains the main command-line interface and functionality.
+*   `pyproject.toml`: Specifies the project's build system and metadata.
+
+**Dependencies and Requirements**
+-------------------------------
+
+mdtool relies on the following dependencies:
+
+*   `groq`: A Python client for Groq's API.
+*   `typer`: A Python library for building command-line interfaces.
+*   `rich`: A Python library for rich text formatting.
+*   `setuptools`: A build system for Python packages.
+
+**Contributing Guidelines**
 ---------------------------
 
-The `zStash` project is organized into the following directories and files:
+Contributions to mdtool are welcome! To contribute, follow these steps:
 
-*   `Cargo.toml`: The Rust package file, containing metadata and dependencies.
-*   `Cargo.lock`: The generated lock file, ensuring consistent dependencies.
-*   `src/lib.rs`: The main library file, containing the encryption and decryption logic.
-*   `src/main.rs`: The main executable file, handling command-line arguments and executing the encryption and decryption commands.
+1.  Fork the repository.
+2.  Create a new branch for your feature or bug fix.
+3.  Implement your changes and test them thoroughly.
+4.  Open a pull request to merge your branch into the main repository.
 
-## Dependencies and Requirements
-------------------------------
-
-`zStash` relies on the following dependencies:
-
-*   `clap` for command-line argument parsing
-*   `aes-gcm` for AES-GCM encryption
-*   `pbkdf2` for password-based key derivation
-
-These dependencies are automatically managed by Cargo, the Rust package manager.
-
-## Contributing Guidelines
+**License Information**
 ----------------------
 
-Contributions to `zStash` are welcome and encouraged. If you'd like to contribute, please follow these steps:
+mdtool is released under the Apache License 2.0. See the `LICENSE` file for more information.
 
-1.  Fork the `zStash` repository on GitHub.
-2.  Create a new branch for your feature or bug fix.
-3.  Commit your changes with clear and descriptive commit messages.
-4.  Open a pull request to the main `zStash` repository.
+**Acknowledgments**
+-----------------
 
-## License Information
----------------------
-
-`zStash` is licensed under the MIT License or the Apache License 2.0. You may choose to use either license at your discretion. For more information, please refer to the `LICENSE` file in the repository.
+Special thanks to the developers of Groq, typer, rich, and setuptools for their excellent libraries and tools.
