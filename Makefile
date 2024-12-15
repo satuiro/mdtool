@@ -1,5 +1,5 @@
 BINARY_NAME=mdtool
-VERSION=$(shell git describe --tags --always --abbrev=0 || echo "v0.1.0")
+VERSION=$(shell git describe --tags --always --abbrev=0 || echo "v0.1.1")
 BUILD_FLAGS=-ldflags "-X main.version=${VERSION}"
 
 .PHONY: build

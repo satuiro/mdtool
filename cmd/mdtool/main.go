@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var version = "v0.1.0"
+var version = "v0.1.1"
 
 var rootCmd = &cobra.Command{
 	Use:     "mdtool",
