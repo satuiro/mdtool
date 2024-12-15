@@ -47,61 +47,131 @@ func NewGenerator(config *config.Config, repoName string) *Generator {
 	}
 }
 
-func (g *Generator) shouldIncludeFile(path string, size int) bool { // Changed from int64 to int
-	if size > g.maxFileSize {
-		return false
-	}
-
-	for _, pattern := range g.excludePatterns {
-		if strings.HasSuffix(path, pattern) || strings.Contains(path, pattern) {
-			return false
-		}
-	}
-
-	return true
-}
-
 func (g *Generator) getRepoFiles(ctx context.Context) (map[string]string, *github.Repository, error) {
 	parts := strings.Split(g.repoName, "/")
 	if len(parts) != 2 {
 		return nil, nil, fmt.Errorf("invalid repository name format. Use 'owner/repo'")
 	}
 
-	repo, _, err := g.githubClient.Repositories.Get(ctx, parts[0], parts[1])
+	owner, repoName := parts[0], parts[1]
+
+	// Get repository information
+	repo, _, err := g.githubClient.Repositories.Get(ctx, owner, repoName)
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to get repository: %w", err)
 	}
 
 	files := make(map[string]string)
-	_, dirContent, _, err := g.githubClient.Repositories.GetContents(ctx, parts[0], parts[1], "", nil)
-	if err != nil {
-		return nil, nil, fmt.Errorf("failed to get repository contents: %w", err)
+
+	// Create a recursive function to traverse directories
+	var fetchContents func(path string) error
+	fetchContents = func(path string) error {
+		_, dirContent, _, err := g.githubClient.Repositories.GetContents(ctx, owner, repoName, path, nil)
+		if err != nil {
+			return fmt.Errorf("failed to get contents for path %s: %w", path, err)
+		}
+
+		for _, content := range dirContent {
+			if !g.shouldIncludeFile(content.GetPath(), int64(content.GetSize())) {
+				color.Yellow("WARNING: Skipping file %s (size or pattern excluded)", content.GetPath())
+				continue
+			}
+
+			switch content.GetType() {
+			case "file":
+				fileContent, _, _, err := g.githubClient.Repositories.GetContents(ctx, owner, repoName, content.GetPath(), nil)
+				if err != nil {
+					color.Yellow("WARNING: Skipping file %s: %v", content.GetPath(), err)
+					continue
+				}
+
+				if fileContent.GetEncoding() == "base64" {
+					decoded, err := base64.StdEncoding.DecodeString(*fileContent.Content)
+					if err != nil {
+						color.Yellow("WARNING: Failed to decode file %s: %v", content.GetPath(), err)
+						continue
+					}
+					files[content.GetPath()] = string(decoded)
+					color.Blue("INFO: Added file: %s", content.GetPath())
+				}
+
+			case "dir":
+				// Recursively fetch contents of subdirectory
+				if err := fetchContents(content.GetPath()); err != nil {
+					color.Yellow("WARNING: Failed to fetch contents of directory %s: %v", content.GetPath(), err)
+				}
+			}
+		}
+		return nil
 	}
 
-	for _, content := range dirContent {
-		if content.GetType() == "file" {
-			if !g.shouldIncludeFile(content.GetPath(), content.GetSize()) {
-				continue
-			}
+	// Start recursive fetch from root
+	if err := fetchContents(""); err != nil {
+		return nil, nil, fmt.Errorf("failed to fetch repository contents: %w", err)
+	}
 
-			fileContent, _, _, err := g.githubClient.Repositories.GetContents(ctx, parts[0], parts[1], content.GetPath(), nil)
-			if err != nil {
-				color.Yellow("WARNING: Skipping file %s: %v", content.GetPath(), err)
-				continue
-			}
+	if len(files) == 0 {
+		return nil, nil, fmt.Errorf("no suitable files found in the repository")
+	}
 
-			decoded, err := base64.StdEncoding.DecodeString(*fileContent.Content)
-			if err != nil {
-				color.Yellow("WARNING: Failed to decode file %s: %v", content.GetPath(), err)
-				continue
-			}
+	color.Green("INFO: Successfully fetched %d files from repository", len(files))
+	return files, repo, nil
+}
 
-			files[content.GetPath()] = string(decoded)
-			color.Blue("INFO: Added file: %s", content.GetPath())
+// shouldIncludeFile checks if a file should be included based on size and path
+func (g *Generator) shouldIncludeFile(path string, size int64) bool {
+	// Increase max file size to 500KB
+	if size > 500000 {
+		return false
+	}
+
+	// Common binary and generated file patterns to exclude
+	excludePatterns := []string{
+		"node_modules/",
+		"venv/",
+		".git/",
+		"__pycache__/",
+		"target/",
+		"dist/",
+		"build/",
+		".idea/",
+		".vscode/",
+		".DS_Store",
+		"Thumbs.db",
+		".env",
+		".pyc",
+		".pyo",
+		".pyd",
+		".so",
+		".dylib",
+		".dll",
+		".exe",
+		".bin",
+		".dat",
+		".pb",
+		".o",
+		".a",
+		".lib",
+		".png",
+		".jpg",
+		".jpeg",
+		".gif",
+		".ico",
+		".svg",
+		".woff",
+		".woff2",
+		".ttf",
+		".eot",
+	}
+
+	// Check if the file matches any exclude pattern
+	for _, pattern := range excludePatterns {
+		if strings.Contains(strings.ToLower(path), strings.ToLower(pattern)) {
+			return false
 		}
 	}
 
-	return files, repo, nil
+	return true
 }
 
 func (g *Generator) Generate() (string, error) {
