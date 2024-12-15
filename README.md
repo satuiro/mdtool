@@ -30,7 +30,7 @@ go install github.com/satuiro/mdtool/cmd/mdtool@latest
 
    ```bash
    export GROQ_API_KEY="your-groq-api-key"
-   export GITHUB_TOKEN="your-github-token"
+   export GITHUB_TOKEN="your-github-token" # Prefer using classic token
    ```
 
 2. Generate README for a repository:
@@ -44,4 +44,3 @@ go install github.com/satuiro/mdtool/cmd/mdtool@latest
 - `-o, --output`: Output format (preview/raw)
 - `-s, --save`: Save README to file
 - `--version`: Show version information
-
