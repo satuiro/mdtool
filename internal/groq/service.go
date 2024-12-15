@@ -110,7 +110,7 @@ If the project has a specific focus or unique features, highlight those prominen
 				Content: prompt,
 			},
 		},
-		Model:       "mixtral-8x7b-32768", // Updated to use a more reliable model
+		Model:       "llama-3.3-70b-versatile", // Updated to use a more reliable model
 		Temperature: 0.7,
 		MaxTokens:   2000,
 	}
